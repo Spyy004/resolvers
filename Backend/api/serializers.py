@@ -26,6 +26,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
 # Article Serializer
 class ArticleSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField('get_article_photo_url')
@@ -36,6 +43,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     def get_article_photo_url(self, obj):
         return "https://ashish226.pythonanywhere.com/media/articleimages/"+obj.image.url.split('/')[-1]
+
 
 class StockSerializer(serializers.ModelSerializer):
 
