@@ -9,6 +9,8 @@ We have started this with a vision to educate the upcoming generation and folks 
 
 - Financeur: https://financeur-24f2e.web.app/
 
+Mobile Version not deployed yet, Use Desktop Site for a better experience.
+
 ### Features
 - Articles to Learn Financial Terms, Investing, Stocks, etc.
 - Articles to learn Blockchain, Crypto, etc.
