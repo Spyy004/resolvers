@@ -143,8 +143,7 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                                         children: [
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.pushNamed(
-                                                  context, Routes.LogInPage);
+                                              Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                                             },
                                             child: Text(
                                               "Log In",
@@ -169,8 +168,7 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                                             child: Center(
                                               child: TextButton(
                                                 onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      context, Routes.SignUpPage);
+                                                  Navigator.pushNamedAndRemoveUntil(context, Routes.SignUpPage, (route) => false);
                                                 },
                                                 child: Text(
                                                   "Get Started",
@@ -202,7 +200,9 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                     width: 0.005*width,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.AboutPage);
+                      },
                       child: Text("About",
                           style: Theme.of(context)
                               .textTheme
@@ -234,9 +234,15 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                                 ),
                               )
                             : TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.LogInPage);
+                                onPressed: () async{
+                                  await deleteLocalKey("token1");
+                                  await deleteLocalKey("username");
+                                  await deleteLocalKey("email");
+                                  await deleteLocalKey("profilepic");
+                                  profileEmail="";
+                                  profileUsername="";
+                                  profilepic=null;
+                                  Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                                 },
                                 child: Text(
                                   "Log In",
@@ -263,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                               child: TextButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
-                                      context, Routes.SignUpPage);
+                                      context, Routes.MyProfilePage);
                                 },
                                 child: Text(
                                   "My Profile",
@@ -615,6 +621,18 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                                     padding: const EdgeInsets.all(20.0),
                                     child: Column(
                                       children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text("Nifty:${15},${689}",style: Theme.of(context).textTheme.bodyText2.merge(financeurText),),
+                                            Text("Sensex:${52},${386}",style: Theme.of(context).textTheme.bodyText2.merge(financeurText)),
+                                            Text("Gold: ${49},${950} per 10 gram",style: Theme.of(context).textTheme.bodyText2.merge(financeurText)),
+                                            Text("Silver: ${6}, ${630} per 100 gram",style: Theme.of(context).textTheme.bodyText2.merge(financeurText))
+                                          ],
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
                                         Text(
                                           "Articles",
                                           style: Theme.of(context)

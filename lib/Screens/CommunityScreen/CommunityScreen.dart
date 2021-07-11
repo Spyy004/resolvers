@@ -22,6 +22,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
 //    initialPage: 0,
     keepPage: true,
   );
+  final formKey = GlobalKey<FormState>();
   getUserStatus() async {
     token = await getToken(key: "token1");
     setState(() {});
@@ -41,6 +42,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     var width = MediaQuery.of(context).size.width;
     TextEditingController name = TextEditingController();
     TextEditingController education = TextEditingController();
+    TextEditingController email = TextEditingController();
     TextEditingController linkedIn = TextEditingController();
     TextEditingController additionalInfo = TextEditingController();
     return ResponsiveBuilder(builder: (context,sizing){
@@ -48,7 +50,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
       {
         return Scaffold(
           //  extendBodyBehindAppBar: true,
-            appBar:  AppBar(
+            appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
               titleSpacing: width * 0.25,
@@ -135,8 +137,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                       children: [
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, Routes.LogInPage);
+                                            Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                                           },
                                           child: Text(
                                             "Log In",
@@ -161,8 +162,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                           child: Center(
                                             child: TextButton(
                                               onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, Routes.SignUpPage);
+                                                Navigator.pushNamedAndRemoveUntil(context, Routes.SignUpPage, (route) => false);
                                               },
                                               child: Text(
                                                 "Get Started",
@@ -194,7 +194,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     width: 0.005*width,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.AboutPage);
+                      },
                       child: Text("About",
                           style: Theme.of(context)
                               .textTheme
@@ -226,9 +228,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           ),
                         )
                             : TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.LogInPage);
+                          onPressed: () async{
+                            await deleteLocalKey("token1");
+                            await deleteLocalKey("username");
+                            await deleteLocalKey("email");
+                            await deleteLocalKey("profilepic");
+                            profileEmail="";
+                            profileUsername="";
+                            profilepic=null;
+                            Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                           },
                           child: Text(
                             "Log In",
@@ -255,7 +263,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         child: TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, Routes.SignUpPage);
+                                context, Routes.MyProfilePage);
                           },
                           child: Text(
                             "My Profile",
@@ -399,15 +407,23 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         children: [
                           Form(
                             child: Container(
-                              height: height*0.55,
+                              height: height*0.65,
                               child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Username",style: Theme.of(context).textTheme.subtitle1.merge(financeurText),),
+                                Text("Name",style: Theme.of(context).textTheme.subtitle1.merge(financeurText),),
                                 SizedBox(
                                   height: 0.01*height,
                                 ),
-                                SignUpTextField(width: width,height: height,controller: name,title: "Name",),
+                                SignUpTextField(width: width,height: height,controller: name,title: "Name",compulsary: true,),
+                                SizedBox(
+                                  height: 0.02*height,
+                                ),
+                                Text("Email Id",style: Theme.of(context).textTheme.subtitle1.merge(financeurText),),
+                                SizedBox(
+                                  height: 0.01*height,
+                                ),
+                                SignUpTextField(width: width,height: height,controller: email,title: "Email Id",compulsary: true,),
                                 SizedBox(
                                   height: 0.02*height,
                                 ),
@@ -415,7 +431,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 SizedBox(
                                   height: 0.01*height,
                                 ),
-                                SignUpTextField(width: width,height: height,controller: education,title: "Education Details",),
+                                SignUpTextField(width: width,height: height,controller: education,title: "Education Details",compulsary: true,),
                                 SizedBox(
                                   height: 0.04*height,
                                 ),
@@ -423,7 +439,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 SizedBox(
                                   height: 0.01*height,
                                 ),
-                                SignUpTextField(width: width,height: height,controller: linkedIn,title: "LinkedIn Url",),
+                                SignUpTextField(width: width,height: height,controller: linkedIn,title: "LinkedIn Url",compulsary: false,),
                                 SizedBox(
                                   height: 0.04*height,
                                 ),
@@ -431,7 +447,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 SizedBox(
                                   height: 0.01*height,
                                 ),
-                                SignUpTextField(width: width,height: height,controller: additionalInfo,title: "Additional Info",),
+                                SignUpTextField(width: width,height: height,controller: additionalInfo,title: "Additional Info",compulsary: false,),
                                 SizedBox(
                                   height: 0.04*height,
                                 ),
@@ -445,6 +461,16 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   child: Center(
                                     child: TextButton(
                                       onPressed: ()async{
+                                        if(formKey.currentState.validate())
+                                          {
+                                            formKey.currentState.save();
+                                           await PostServices().submitForm(name.text, email.text, linkedIn.text, education.text, additionalInfo.text);
+                                            Fluttertoast.showToast(msg: "Form Submitted Successfully");
+                                          }
+                                        else
+                                          {
+                                            Fluttertoast.showToast(msg: "Please fill details properly");
+                                          }
                                       },
                                       child: Text(
                                         "Submit",
@@ -461,6 +487,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               ],
                           ),
                             ),
+                            key: formKey,
                           ),
                         ],
                       ),
@@ -523,13 +550,14 @@ class SignUpTextField extends StatelessWidget {
     @required this.width,
     this.height,
     this.controller,
-    this.title
+    this.title,
+    this.compulsary
   }) : super(key: key);
   final TextEditingController controller;
   final String title;
   final double width;
   final double height;
-
+  final bool compulsary;
   @override
   Widget build(BuildContext context) {
     //  var height = MediaQuery.of(context).size.height;
@@ -542,23 +570,50 @@ class SignUpTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Color(0xffD2D8CF)),
         ),
-        child: TextFormField(
-          maxLines: 4,
-          controller: controller,
-          keyboardType: TextInputType.name,
-          decoration: InputDecoration(
-            hintText: "Enter your $title",
-            errorBorder: InputBorder.none,
-            focusedErrorBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            border: InputBorder.none,
-          ),
-          validator: (text) {
-            if (text == null || text.isEmpty) {
-              return '$title is empty';
+        child: Padding(
+          padding:  EdgeInsets.symmetric(horizontal: width*0.01),
+          child: TextFormField(
+            maxLines: 4,
+            controller: controller,
+            keyboardType: TextInputType.name,
+            decoration: InputDecoration(
+              hintText: "Enter your $title",
+              errorBorder: InputBorder.none,
+              focusedErrorBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              border: InputBorder.none,
+            ),
+            validator:compulsary==true?(text) {
+              if (text == null || text.isEmpty) {
+                return '$title is empty';
+              }
+              else if (title == "Email Id"){
+               if(title=="Email Id"&& text.toString().contains("@"))
+               {
+              return null;
+               }
+               else
+                 {
+                   return "Invalid Email";
+                 }
             }
-            return null;
-          },
+              return null;
+            }:(text){
+              if(title=="LinkedIn Url") {
+                if (text.toString().contains("https://www.linkedin.com/")) {
+                  return null;
+                }
+                else if(text.isEmpty){
+                  return null;
+                }
+                return "Invalid Url";
+              }
+              else
+                {
+                  return null;
+                }
+            },
+          ),
         ),
       ),
     );

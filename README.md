@@ -7,6 +7,8 @@ Financeur is a community enabled Financial learning platform where anyone can le
 
 We have started this with a vision to educate the upcoming generation and folks to be financially aware and enable them to learn and build collectively in a group.
 
+- Financeur: https://financeur-24f2e.web.app/
+
 ### Features
 - Articles to Learn Financial Terms, Investing, Stocks, etc.
 - Articles to learn Blockchain, Crypto, etc.

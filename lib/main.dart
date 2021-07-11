@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:resolvers/Screens/AboutScreen/AboutScreen.dart';
 import 'package:resolvers/Screens/ArticleScreen/ArticleScreen.dart';
@@ -5,11 +6,13 @@ import 'package:resolvers/Screens/AuthScreens/LogInScreen.dart';
 import 'package:resolvers/Screens/CommunityScreen/CommunityScreen.dart';
 import 'package:resolvers/Screens/HomeScreen/Components/SingleArticleScreen.dart';
 import 'package:resolvers/Screens/HomeScreen/HomeScreen.dart';
+import 'package:resolvers/Screens/MyProfile/MyProfileScreen.dart';
 import 'package:resolvers/Screens/NewsScreen/NewsScreen.dart';
 import 'package:resolvers/Screens/Resources/ResourcesScreen.dart';
 import 'Routes.dart';
 import 'Screens/AuthScreens/SignUpScreen.dart';
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -35,5 +38,6 @@ var routes = <String,WidgetBuilder>{
   Routes.CommunityPage:(BuildContext context)=>CommunityScreen(),
   Routes.SingleArticlePage:(BuildContext context)=>SingleArticleScreen(),
   Routes.ArticlePage: (BuildContext context)=>ArticleScreen(),
-  Routes.ResourcesPage:(BuildContext context)=>ResourcesScreen()
+  Routes.ResourcesPage:(BuildContext context)=>ResourcesScreen(),
+  Routes.MyProfilePage: (BuildContext context)=>MyProfile(),
 };

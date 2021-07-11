@@ -6,6 +6,7 @@ import 'package:resolvers/Models/ArticleModel.dart';
 import 'package:resolvers/Models/CurrencyConverterModel.dart';
 import 'package:resolvers/Models/NewsModel.dart';
 import 'package:resolvers/Models/StockPricesModel.dart';
+import 'package:resolvers/Services/SharedPreferences.dart';
 
 class GetServices {
  Future<List<Article>>getAllArticles()async
@@ -93,5 +94,20 @@ class GetServices {
   /*   print("THIS IS Ornaments");
      print(response.statusCode.toString());*/
    }
+ }
+ getProfilePic()async
+ {
+   String token = await getToken(key:"token1");
+   var headers = {
+     "Authorization":"Token $token"
+   };
+   Uri uri = Uri.parse("https://ashish226.pythonanywhere.com/api/profile-pic/");
+   var request = await http.get(uri,headers: headers);
+   if(request.statusCode==200)
+     {
+       var jsonData = jsonDecode(request.body);
+       await savePic(saveKey: "profilepic",saveValue: jsonData["image_url"]);
+     }
+
  }
 }

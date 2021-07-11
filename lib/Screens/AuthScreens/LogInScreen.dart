@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resolvers/Constants/Fonts&Themes.dart';
 import 'package:resolvers/Models/ExistingUserModel.dart';
+import 'package:resolvers/Services/GetServices.dart';
 import 'package:resolvers/Services/PostServices.dart';
 import 'package:resolvers/Services/SharedPreferences.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -76,19 +77,19 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Username",style: Theme.of(context).textTheme.subtitle1.merge(financeurText),),
+                                        Text("Username",style: Theme.of(context).textTheme.subtitle1.merge(financeurText)),
                                         SizedBox(
                                           height: 0.01*height,
                                         ),
-                                        SignUpTextField(width: width,height: height,controller: username,title: "username",),
+                                        SignUpTextField(width: width,height: height,controller: username,title: "username",privacy: 0),
                                         SizedBox(
                                           height: 0.02*height,
                                         ),
-                                        Text("Password",style: Theme.of(context).textTheme.subtitle1.merge(financeurText),),
+                                        Text("Password",style: Theme.of(context).textTheme.subtitle1.merge(financeurText)),
                                         SizedBox(
                                           height: 0.01*height,
                                         ),
-                                        SignUpTextField(width: width,height: height,controller: password,title: "Password",),
+                                        SignUpTextField(width: width,height: height,controller: password,title: "Password",privacy: 1),
                                         SizedBox(
                                           height: 0.04*height,
                                         ),
@@ -114,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                                                  }
                                                else
                                                  {
+                                                  await GetServices().getProfilePic();
                                                    Navigator.pushNamed(context, Routes.HomePage);
                                                  }
                                                 }

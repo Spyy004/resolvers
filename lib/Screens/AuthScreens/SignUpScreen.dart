@@ -87,7 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   SizedBox(
                                     height: 0.01*height,
                                   ),
-                                  SignUpTextField(width: width,height: height,title: "username",controller: username,),
+                                  SignUpTextField(width: width,height: height,title: "username",controller: username,privacy: 0,),
                                   SizedBox(
                                     height: 0.02*height,
                                   ),
@@ -95,7 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   SizedBox(
                                     height: 0.01*height,
                                   ),
-                                  SignUpTextField(width: width,height: height,title: "email",controller: email,),
+                                  SignUpTextField(width: width,height: height,title: "email",controller: email,privacy: 0,),
                                   SizedBox(
                                     height: 0.02*height,
                                   ),
@@ -103,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   SizedBox(
                                     height: 0.01*height,
                                   ),
-                                  SignUpTextField(width: width,height: height,title: "password",controller: password,),
+                                  SignUpTextField(width: width,height: height,title: "password",controller: password,privacy: 1,),
                                   SizedBox(
                                     height: 0.02*height,
                                   ),
@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   SizedBox(
                                     height: 0.01*height,
                                   ),
-                                  SignUpTextField(width: width,height: height,title: "Confirm password",controller: confirmPassword,),
+                                  SignUpTextField(width: width,height: height,title: "Confirm password",controller: confirmPassword,privacy: 1,),
                                   SizedBox(
                                     height: 0.04*height,
                                   ),
@@ -124,10 +124,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                     child: Center(
                                       child: TextButton(
-                                        onPressed: (){
+                                        onPressed: ()async{
                                           if(formKey.currentState.validate()) {
                                             formKey.currentState.save();
-                                           var x = postServices.createNewUser(
+                                           var x = await postServices.createNewUser(
                                                 username.text.toString(),
                                                 email.text.toString(),
                                                 password.text.toString(),
@@ -137,6 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                              {
                                                Navigator.pushNamed(context, Routes.HomePage);
                                              }
+
                                           }
                                         },
                                         child: Text(

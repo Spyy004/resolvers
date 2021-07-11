@@ -10,4 +10,5 @@ class Routes
   static const String SingleArticlePage = "/SingleArticlePage";
   static const String ArticlePage = "/ArticlePage";
   static const String ResourcesPage ="/ResourcesPage";
+  static const String MyProfilePage = "/MyProfilePage";
 }

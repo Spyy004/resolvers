@@ -48,7 +48,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
       if (sizing.isDesktop) {
         return Scaffold(
           //  extendBodyBehindAppBar: true,
-            appBar:  AppBar(
+            appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
               titleSpacing: width * 0.25,
@@ -135,8 +135,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                                       children: [
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, Routes.LogInPage);
+                                            Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                                           },
                                           child: Text(
                                             "Log In",
@@ -161,8 +160,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                                           child: Center(
                                             child: TextButton(
                                               onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, Routes.SignUpPage);
+                                                Navigator.pushNamedAndRemoveUntil(context, Routes.SignUpPage, (route) => false);
                                               },
                                               child: Text(
                                                 "Get Started",
@@ -194,7 +192,9 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                     width: 0.005*width,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.AboutPage);
+                      },
                       child: Text("About",
                           style: Theme.of(context)
                               .textTheme
@@ -226,9 +226,15 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                           ),
                         )
                             : TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.LogInPage);
+                          onPressed: () async{
+                            await deleteLocalKey("token1");
+                            await deleteLocalKey("username");
+                            await deleteLocalKey("email");
+                            await deleteLocalKey("profilepic");
+                            profileEmail="";
+                            profileUsername="";
+                            profilepic=null;
+                            Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                           },
                           child: Text(
                             "Log In",
@@ -255,7 +261,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                         child: TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, Routes.SignUpPage);
+                                context, Routes.MyProfilePage);
                           },
                           child: Text(
                             "My Profile",

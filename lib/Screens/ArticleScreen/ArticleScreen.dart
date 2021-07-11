@@ -61,56 +61,56 @@ class _ArticleScreenState extends State<ArticleScreen> {
       if (sizing.isDesktop) {
         return Scaffold(
           //  extendBodyBehindAppBar: true,
-            appBar:  AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              titleSpacing: width * 0.25,
-              title: Row(
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.ArticlePage);
-                      },
-                      child: Text(
-                        "Articles",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .merge(financeurText),
-                      )),
-                  SizedBox(
-                    width: 0.005*width,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.NewsPage);
-                      },
-                      child: Text(
-                        "News",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .merge(financeurText),
-                      )),
-                  SizedBox(
-                    width: 0.005*width,
-                  ),
-                  SizedBox(
-                    width: 0.005*width,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.CommunityPage);
-                      },
-                      child: Text("Community",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .merge(financeurText))),
-                  SizedBox(
-                    width: 0.005*width,
-                  ),
-                  /*  TextButton(
+            appBar:AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          titleSpacing: width * 0.25,
+          title: Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.ArticlePage);
+                  },
+                  child: Text(
+                    "Articles",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .merge(financeurText),
+                  )),
+              SizedBox(
+                width: 0.005*width,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.NewsPage);
+                  },
+                  child: Text(
+                    "News",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .merge(financeurText),
+                  )),
+              SizedBox(
+                width: 0.005*width,
+              ),
+              SizedBox(
+                width: 0.005*width,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.CommunityPage);
+                  },
+                  child: Text("Community",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .merge(financeurText))),
+              SizedBox(
+                width: 0.005*width,
+              ),
+              /*  TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.HomePage);
                       },
@@ -119,214 +119,220 @@ class _ArticleScreenState extends State<ArticleScreen> {
                               .textTheme
                               .bodyText2
                               .merge(financeurText))),*/
-                  SizedBox(
-                    width: 0.005*width,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        if(token != null)
-                        {
-                          Navigator.pushNamed(context, Routes.ResourcesPage);
-                        }
-                        else
-                        {
-                          showDialog(context: context, builder: (context){
-                            return AlertDialog(
-                              content: Container(
-                                width: 300,
-                                height: 300,
-                                child: Column(
+              SizedBox(
+                width: 0.005*width,
+              ),
+              TextButton(
+                  onPressed: () {
+                    if(token != null)
+                    {
+                      Navigator.pushNamed(context, Routes.ResourcesPage);
+                    }
+                    else
+                    {
+                      showDialog(context: context, builder: (context){
+                        return AlertDialog(
+                          content: Container(
+                            width: 300,
+                            height: 300,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text("Please Sign Up or Login first!"),
+                                SizedBox(
+                                  width: 0.01 * height,
+                                ),
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("Please Sign Up or Login first!"),
-                                    SizedBox(
-                                      width: 0.01 * height,
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
+                                      },
+                                      child: Text(
+                                        "Log In",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .merge(financeurText)
+                                            .copyWith(color: Colors.black),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        TextButton(
+                                    SizedBox(
+                                      width: 0.01 * width,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      width: 0.06 * width,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff7B78FE),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: TextButton(
                                           onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, Routes.LogInPage);
+                                            Navigator.pushNamedAndRemoveUntil(context, Routes.SignUpPage, (route) => false);
                                           },
                                           child: Text(
-                                            "Log In",
+                                            "Get Started",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText2
                                                 .merge(financeurText)
-                                                .copyWith(color: Colors.black),
+                                                .copyWith(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 0.01 * width,
-                                        ),
-                                        Container(
-                                          height: 35,
-                                          width: 0.06 * width,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff7B78FE),
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: TextButton(
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, Routes.SignUpPage);
-                                              },
-                                              child: Text(
-                                                "Get Started",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText2
-                                                    .merge(financeurText)
-                                                    .copyWith(color: Colors.white),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
+                                      ),
+                                    ),
                                   ],
-                                ),
-                              ),
-                            );
-                          });
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                    }
+                  },
+                  child: Text("Resources",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .merge(financeurText))),
+              SizedBox(
+                width: 0.005*width,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.AboutPage);
+                  },
+                  child: Text("About",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .merge(financeurText)))
+            ],
+          ),
+          actions: [
+            Row(
+              children: [
+                Center(
+                    child: token != null
+                        ? TextButton(
+                      onPressed: () async{
+                        int y = await PostServices().LogOutUser();
+                        if(y==204)
+                        {
+                          Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
                         }
                       },
-                      child: Text("Resources",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .merge(financeurText))),
-                  SizedBox(
-                    width: 0.005*width,
-                  ),
-                  TextButton(
-                      onPressed: () {},
-                      child: Text("About",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .merge(financeurText)))
-                ],
-              ),
-              actions: [
-                Row(
-                  children: [
-                    Center(
-                        child: token != null
-                            ? TextButton(
-                          onPressed: () async{
-                            int y = await PostServices().LogOutUser();
-                            if(y==204)
-                            {
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
-                            }
-                          },
-                          child: Text(
-                            "Log Out",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                .merge(financeurText)
-                                .copyWith(color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                            : TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.LogInPage);
-                          },
-                          child: Text(
-                            "Log In",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                .merge(financeurText)
-                                .copyWith(color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                        )),
-                    SizedBox(
-                      width: 0.01 * width,
-                    ),
-                    token != null
-                        ? Container(
-                      height: 35,
-                      width: 0.06 * width,
-                      decoration: BoxDecoration(
-                        color: Color(0xff7B78FE),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.SignUpPage);
-                          },
-                          child: Text(
-                            "My Profile",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                .merge(financeurText)
-                                .copyWith(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      child: Text(
+                        "Log Out",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText)
+                            .copyWith(color: Colors.black),
+                        textAlign: TextAlign.center,
                       ),
                     )
-                        : Container(
-                      height: 35,
-                      width: 0.06 * width,
-                      decoration: BoxDecoration(
-                        color: Color(0xff7B78FE),
-                        borderRadius: BorderRadius.circular(10),
+                        : TextButton(
+                      onPressed: () async{
+                        await deleteLocalKey("token1");
+                        await deleteLocalKey("username");
+                        await deleteLocalKey("email");
+                        await deleteLocalKey("profilepic");
+                        profileEmail="";
+                        profileUsername="";
+                        profilepic=null;
+                        Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
+                      },
+                      child: Text(
+                        "Log In",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText)
+                            .copyWith(color: Colors.black),
+                        textAlign: TextAlign.center,
                       ),
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.SignUpPage);
-                          },
-                          child: Text(
-                            "Get Started",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                .merge(financeurText)
-                                .copyWith(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                    )),
+                SizedBox(
+                  width: 0.01 * width,
+                ),
+                token != null
+                    ? Container(
+                  height: 35,
+                  width: 0.06 * width,
+                  decoration: BoxDecoration(
+                    color: Color(0xff7B78FE),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, Routes.MyProfilePage);
+                      },
+                      child: Text(
+                        "My Profile",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText)
+                            .copyWith(color: Colors.white),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
+                  ),
                 )
-              ],
-              leading: Center(
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(context, Routes.HomePage, (route) => false);
-                    },
-                    child: Text(
-                      "Financeur",
-                      style:
-                      Theme.of(context).textTheme.headline4.merge(financeurText),
+                    : Container(
+                  height: 35,
+                  width: 0.06 * width,
+                  decoration: BoxDecoration(
+                    color: Color(0xff7B78FE),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, Routes.SignUpPage);
+                      },
+                      child: Text(
+                        "Get Started",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText)
+                            .copyWith(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  )),
-              leadingWidth: width*0.15,
-            ),
+                  ),
+                ),
+              ],
+            )
+          ],
+          leading: Center(
+              child: InkWell(
+                focusColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(context, Routes.HomePage, (route) => false);
+                },
+                child: Text(
+                  "Financeur",
+                  style:
+                  Theme.of(context).textTheme.headline4.merge(financeurText),
+                ),
+              )),
+          leadingWidth: width*0.15,
+        ),
             backgroundColor: Colors.white,
             body: Padding(
               padding: EdgeInsets.only(top: 0.02 * height),
