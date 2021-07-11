@@ -17,7 +17,7 @@ We have started this with a vision to educate the upcoming generation and folks 
 ### Installation
 - Install Flutter from https://flutter.dev/ as per your device.
 
-- For Backend check requirements.txt[https://github.com/Spyy004/resolvers/tree/main/Backend/requirements.txt] using `pip install requirements.txt`
+- For Backend check [requirements.txt](https://github.com/Spyy004/resolvers/blob/main/Backend/requirements.txt) using `pip install requirements.txt`
 
 - Then run server using `python manage.py runserver` command inside Backend directory.
 
