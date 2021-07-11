@@ -79,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 90),
                             child: Container(
-                              height: 0.50*height,
+                              height: 0.60*height,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -105,6 +105,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                   SignUpTextField(width: width,height: height,title: "password",controller: password,),
                                   SizedBox(
+                                    height: 0.02*height,
+                                  ),
+                                  Text("Confirm Password",style: Theme.of(context).textTheme.subtitle1.merge(financeurText),),
+                                  SizedBox(
                                     height: 0.01*height,
                                   ),
                                   SignUpTextField(width: width,height: height,title: "Confirm password",controller: confirmPassword,),
@@ -126,7 +130,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                            var x = postServices.createNewUser(
                                                 username.text.toString(),
                                                 email.text.toString(),
-                                                password.text.toString()
+                                                password.text.toString(),
+                                              confirmPassword.text.toString()
                                             );
                                            if(x!=null)
                                              {
@@ -264,7 +269,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                                   postServices.createNewUser(
                                                     username.text.toString(),
                                                     email.text.toString(),
-                                                    password.text.toString()
+                                                    password.text.toString(),
+                                                    confirmPassword.text.toString(),
                                                   );
                                                 }
                                           },

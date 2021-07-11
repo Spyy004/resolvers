@@ -1,8 +1,8 @@
 import 'dart:math';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:resolvers/Constants/Fonts&Themes.dart';
 import 'package:resolvers/Models/ArticleModel.dart';
 import 'package:resolvers/Models/CryptoModel.dart';
@@ -11,8 +11,11 @@ import 'package:resolvers/Models/StockPricesModel.dart';
 import 'package:resolvers/Routes.dart';
 import 'package:resolvers/Screens/HomeScreen/Components/SingleNewsScreen.dart';
 import 'package:resolvers/Services/GetServices.dart';
+import 'package:resolvers/Services/PostServices.dart';
 import 'package:resolvers/Services/SharedPreferences.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+
+import 'Components/SingleArticleScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -56,9 +59,23 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              titleSpacing: width * 0.27,
+              titleSpacing: width * 0.25,
               title: Row(
                 children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.ArticlePage);
+                      },
+                      child: Text(
+                        "Articles",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText),
+                      )),
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
                   TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.NewsPage);
@@ -73,8 +90,13 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                   SizedBox(
                     width: 0.005*width,
                   ),
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.CommunityPage);
+                      },
                       child: Text("Community",
                           style: Theme.of(context)
                               .textTheme
@@ -83,18 +105,94 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                   SizedBox(
                     width: 0.005*width,
                   ),
-                  TextButton(
-                      onPressed: () {},
+                /*  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.HomePage);
+                      },
                       child: Text("Home",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
-                              .merge(financeurText))),
+                              .merge(financeurText))),*/
                   SizedBox(
                     width: 0.005*width,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(token != null)
+                        {
+                          Navigator.pushNamed(context, Routes.ResourcesPage);
+                        }
+                        else
+                          {
+                            showDialog(context: context, builder: (context){
+                              return AlertDialog(
+                                content: Container(
+                                  width: 300,
+                                  height: 300,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text("Please Sign Up or Login first!"),
+                                      SizedBox(
+                                        width: 0.01 * height,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context, Routes.LogInPage);
+                                            },
+                                            child: Text(
+                                              "Log In",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  .merge(financeurText)
+                                                  .copyWith(color: Colors.black),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 0.01 * width,
+                                          ),
+                                          Container(
+                                            height: 35,
+                                            width: 0.06 * width,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xff7B78FE),
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Center(
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.pushNamed(
+                                                      context, Routes.SignUpPage);
+                                                },
+                                                child: Text(
+                                                  "Get Started",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2
+                                                      .merge(financeurText)
+                                                      .copyWith(color: Colors.white),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                          }
+                      },
                       child: Text("Resources",
                           style: Theme.of(context)
                               .textTheme
@@ -118,8 +216,12 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                     Center(
                         child: token != null
                             ? TextButton(
-                                onPressed: () {
-                                  /* Navigator.pushNamed(context, Routes.LogInPage);*/
+                                onPressed: () async{
+                                 int y = await PostServices().LogOutUser();
+                                 if(y==204)
+                                   {
+                                     Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
+                                   }
                                 },
                                 child: Text(
                                   "Log Out",
@@ -204,13 +306,21 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                 )
               ],
               leading: Center(
-                        child: Text(
-                            "Financeur",
-                style:
-                    Theme.of(context).textTheme.headline4.merge(financeurText).copyWith(color:Colors.white)),
-
-              ),
-              leadingWidth: 160,
+                  child: InkWell(
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(context, Routes.HomePage, (route) => false);
+                    },
+                    child: Text(
+                      "Financeur",
+                      style:
+                      Theme.of(context).textTheme.headline4.merge(financeurText),
+                    ),
+                  )),
+              leadingWidth: width*0.15,
             ),
             backgroundColor: Colors.white,
             body: Padding(
@@ -501,92 +611,116 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                               return Container(
                                 //  height: height*0.5,
                                 child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "Articles",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3
-                                            .merge(financeurText).copyWith(fontWeight: FontWeight.bold),
-                                      ),
-                                      Divider(
-                                        thickness: 1,
-                                      ),
-                                      ListView.builder(
-                                          itemCount: snapshot.data.length,
-                                          scrollDirection: Axis.vertical,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            return Container(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: width * 0.03,
-                                                    top: height * 0.03),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      child: Image(
-                                                        image: NetworkImage(
-                                                          snapshot.data[index].imageUrl.toString(),
-                                                        ),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                      width: 500,
-                                                      height: 200,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 0.01 * height,
-                                                    ),
-                                                    Text(
-                                                        snapshot
-                                                            .data[index].title,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline6
-                                                            .merge(financeurText)
-                                                            .copyWith(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Articles",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3
+                                              .merge(financeurText).copyWith(fontWeight: FontWeight.bold),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        ListView.builder(
+                                            itemCount: min(3,snapshot.data.length),
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return InkWell(
+                                                focusColor: Colors.transparent,
+                                                splashColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
+                                                onTap: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context){return SingleArticleScreen(allArticles: snapshot.data,article: snapshot.data[index],currPage:index==0?index:index+1);}));
+                                                },
+                                                child: Container(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: width * 0.03,
+                                                        top: height * 0.03),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                            snapshot
+                                                                .data[index].title,
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .headline6
+                                                                .merge(financeurText)
+                                                                .copyWith(
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                    SizedBox(
-                                                      height: 0.01 * height,
+                                                                FontWeight
+                                                                    .bold)),
+                                                        SizedBox(
+                                                          height: 0.03 * height,
+                                                        ),
+                                                        Container(
+                                                          child: Image(
+                                                            image: NetworkImage(
+                                                              snapshot.data[index].imageUrl.toString(),
+                                                            ),
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          width: width*0.7,
+                                                          height: height*0.4,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 0.01 * height,
+                                                        ),
+                                                        Text(
+                                                            snapshot
+                                                                .data[index].createdOn
+                                                                .split("T")
+                                                                .first,
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .subtitle1
+                                                                .merge(
+                                                                    financeurText)),
+                                                        SizedBox(
+                                                          height: 0.02 * height,
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.all(15.0),
+                                                          child: SelectableText(
+                                                              snapshot
+                                                                  .data[index].content.substring(0,400)+"...",
+                                                              style: Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2
+                                                                  .merge(
+                                                                      financeurText),textAlign: TextAlign.start,
+                                                            showCursor: false,
+                                                            toolbarOptions: ToolbarOptions(copy: true, selectAll: true,),
+                                                          ),
+                                                        ),
+                                                        Divider(
+                                                          thickness: 1,
+                                                        )
+                                                      ],
                                                     ),
-                                                    Text(
-                                                        snapshot
-                                                            .data[index].createdOn
-                                                            .split("T")
-                                                            .first,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .subtitle1
-                                                            .merge(
-                                                                financeurText)),
-                                                    SizedBox(
-                                                      height: 0.02 * height,
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(15.0),
-                                                      child: Text(
-                                                          snapshot
-                                                              .data[index].content,
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .bodyText2
-                                                              .merge(
-                                                                  financeurText),textAlign: TextAlign.start,),
-                                                    ),
-                                                    Divider(
-                                                      thickness: 1,
-                                                    )
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          }),
-                                    ],
+                                              );
+                                            }),
+                                        InkWell(
+                                            focusColor: Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: (){
+                                              Navigator.pushNamed(context, Routes.ArticlePage);
+                                            },
+                                            child: Text("View More",style: Theme.of(context).textTheme.bodyText2.merge(financeurText).copyWith(decoration: TextDecoration.underline,color: Color(0xff7B78FE)),))
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -638,22 +772,33 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                                                     shrinkWrap: true,
                                                     itemCount: min(snapshot.data.totalResults,9),
                                                     itemBuilder: (context,index){
-                                                      return ListTile(
-                                                        onTap: (){
-                                                          showDialog(context: context, builder: (context){
-                                                            return SingleNewsScreen(article: snapshot.data.articles[index],);
-                                                          }
-                                                          );
-                                                        },
-                                                        leading: snapshot.data.articles[index].urlToImage != null ?Image(
-                                                          fit: BoxFit.cover,
-                                                            image:
-                                                        NetworkImage(snapshot.data.articles[index].urlToImage,)):SizedBox(width: 35,child: Container(color: Colors.grey,),),
-                                                        title: Text(snapshot.data.articles[index].title.substring(0,15) + "...",style: Theme.of(context).textTheme.bodyText2.merge(financeurText),),
-                                                        subtitle: Text("Author: ${snapshot.data.articles[index].source.name}, Date: ${snapshot.data.articles[index].publishedAt.split("T").first}"),
+                                                      return Column(
+                                                        children: [
+                                                          ListTile(
+                                                            onTap: (){
+                                                              showDialog(context: context, builder: (context){
+                                                                return SingleNewsScreen(article: snapshot.data.articles[index]);
+                                                              }
+                                                              );
+                                                            },
+                                                            leading: snapshot.data.articles[index].urlToImage != null ?Image(
+                                                              fit: BoxFit.cover,
+                                                                image:
+                                                            NetworkImage(snapshot.data.articles[index].urlToImage,)):SizedBox(width: 35,child: Container(color: Colors.grey,),),
+                                                            title: Text(snapshot.data.articles[index].title.substring(0,15) + "...",style: Theme.of(context).textTheme.bodyText2.merge(financeurText),),
+                                                            subtitle: Text("Author: ${snapshot.data.articles[index].source.name}, Date: ${snapshot.data.articles[index].publishedAt.split("T").first}"),
+                                                          ),
+                                                          Divider(
+                                                            thickness: 1,
+                                                          ),
+                                                        ],
                                                       );
                                                     }),
                                                 InkWell(
+                                                    focusColor: Colors.transparent,
+                                                    splashColor: Colors.transparent,
+                                                    hoverColor: Colors.transparent,
+                                                    highlightColor: Colors.transparent,
                                                     onTap: (){
                                                       Navigator.pushNamed(context, Routes.NewsPage);
                                                     },
@@ -687,11 +832,17 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                               child:
                               Column(
                                 children: [
-                                  Text("Join Our Awesome Community",style: Theme.of(context).textTheme.subtitle1.merge(financeurText).copyWith(fontWeight: FontWeight.bold),),
+                                  Text("Join Financeur's Slack Community",style: Theme.of(context).textTheme.subtitle1.merge(financeurText).copyWith(fontWeight: FontWeight.bold),),
                                   SizedBox(
                                     height: 0.02*height,
                                   ),
-                                  Container(
+                                  FloatingActionButton(
+                                      backgroundColor: Color(0xff3C0C25),
+                                      child: Icon(FontAwesomeIcons.slack),
+                                      onPressed: (){
+                                       Navigator.pushNamed(context, Routes.CommunityPage);
+                                  })
+                                  /*Container(
                                     height: 30,
                                     width: 0.05 * width,
                                     decoration: BoxDecoration(
@@ -715,7 +866,7 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
                                         ),
                                       ),
                                     ),
-                                  )
+                                  )*/
                                 ],
                               )
                             ),

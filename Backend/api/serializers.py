@@ -51,6 +51,13 @@ class StockSerializer(serializers.ModelSerializer):
         fields = ('stock_type','name','LTP','change','pChange',)
         model = models.StockData
 
+
+class UserFormSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('id','name','email','education_details','linkedin_url','add_info')
+        model = models.UserForm
+
 class UploadSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     image_url = serializers.SerializerMethodField('get_photo_url')

@@ -21,5 +21,6 @@ urlpatterns = [
     path('crypto/',views.CryptoView.as_view(),name='crypto'),
     path('news/', views.NewsView.as_view(),name='news'),
     path('profile-pic/', views.UploadView.as_view(), name='profile-pic'),
+    path('user-form/', views.UserFormView.as_view(), name='user-form'),
 ]
 

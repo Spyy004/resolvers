@@ -6,7 +6,6 @@ import 'package:resolvers/Models/ExistingUserModel.dart';
 import 'package:resolvers/Services/PostServices.dart';
 import 'package:resolvers/Services/SharedPreferences.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
 import '../../Routes.dart';
 import 'Components/SignUpTextFIeldMobile.dart';
 import 'Components/SignUpTextField.dart';

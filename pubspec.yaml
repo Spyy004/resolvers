@@ -36,6 +36,9 @@ dependencies:
   url_launcher: ^6.0.9
   dio: ^4.0.0
   animated_text_kit: ^4.2.1
+  carousel_slider: ^4.0.0
+  expansion_card: ^0.1.0
+  font_awesome_flutter: ^9.1.0
 
 dev_dependencies:
   flutter_test:

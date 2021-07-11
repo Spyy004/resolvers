@@ -30,10 +30,10 @@ class CryCurr {
 class Status {
   String timestamp;
   int errorCode;
-  Null errorMessage;
+  dynamic errorMessage;
   int elapsed;
   int creditCount;
-  Null notice;
+  dynamic notice;
   int totalCount;
 
   Status(

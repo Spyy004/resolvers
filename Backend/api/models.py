@@ -30,6 +30,14 @@ class StockData(models.Model):
     change = models.DecimalField(max_digits=10, decimal_places=2)
     pChange = models.DecimalField(max_digits=10, decimal_places=2)
 
+class UserForm(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    education_details = models.CharField(max_length=50)
+    linkedin_url = models.CharField(max_length=50,blank=True)
+    add_info = models.TextField(blank=True)
+
 class Upload(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/',null=True, blank=True,default='default.jpg')

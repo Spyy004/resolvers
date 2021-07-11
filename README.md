@@ -1,11 +1,39 @@
-# Resolver
+# Financeur
+## Domain: Finance | Team Name: Resolvers
+## A Proposal for WCE Hackathon 2021
 
-Finance Based Idea
-- Articles to Learn Financial Terms based on Nationality.
-- Articles to learn Blockchain, Crypto, NFT.
-- Daily Financial, Crypto & Market Updates through News, Blogs & Email Newsletters.
-- Community to discuss, ask, interact based on finance.
- - Weekly AMAs with experts on a topic.
- - Job, Internship postings.
-- Resources such as Tools/Guide on vast domain.
-- Forums to ask questions from experts.
+### About
+Financeur is a community enabled learning platform where anyone can learn, stay updated with market news, access resources and most importantly express their views through Slack Community.
+
+We have started this with a vision to educate the upcoming generation and folks to be financially aware and enable them to learn and build collectively in a group.
+
+### Features
+- Articles to Learn Financial Terms, Investing, Stocks, etc.
+- Articles to learn Blockchain, Crypto, etc.
+- Daily Financial News, Crypto & Market Updates.
+- Community to discuss, ask, interact based on Finance on Slack with multi purpose channel.
+- Resources such as Books/Courses/Tools/Guide on vast domain.
+
+### Installation
+- Install Flutter from https://flutter.dev/ as per your device.
+
+- For Backend check requirements.txt[https://github.com/Spyy004/resolvers/tree/main/Backend/requirements.txt] using `pip install requirements.txt`
+
+- Then run server using `python manage.py runserver` command inside Backend directory.
+
+### Stack Used
+Backend - Python, Django<br/>
+Database - SQLite, Firebase<br/>
+Frontend- Flutter<br/>
+APIs <br/>
+- bsedata, nsetools(stock data python modules)
+- https://newsapi.org/
+- https://pro-api.coinmarketcap.com/
+- https://metals-api.com/
+
+### Get in Touch
+- *Team Rational Rulers*
+  - **Ayush Pawar* - <a href="https://github.com/Spyy004">GitHub</a> | <a href="https://www.linkedin.com/in/ayush-pawar-847209191/">LinkedIn</a>
+  - **Aman Pandit** - <a href="https://github.com/amanpanditap">GitHub</a> | <a href="https://www.linkedin.com/in/amanpanditwce/">LinkedIn</a>
+  - **Shahid Mandal** - <a href="https://github.com/shahid-alt">GitHub</a> | <a href="https://www.linkedin.com/in/shahid-mandal-654ac6">LinkedIn</a>
+  - **Ashish Singh** - <a href="https://github.com/AshishSingh2261">GitHub</a> | <a href="https://www.linkedin.com/in/ashish-singh-391ba61b1">LinkedIn</a>

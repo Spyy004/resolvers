@@ -20,94 +20,102 @@ class _SingleNewsScreenState extends State<SingleNewsScreen> {
     return AlertDialog(
       actions: [IconButton(icon:Icon(Icons.close), onPressed: (){Navigator.pop(context);})],
       content: Container(
-        width: 700,
-        height: 700,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: Center(
-                child: Image(
-                  fit: BoxFit.fitWidth,
-                  image: NetworkImage(
-                      widget.article.urlToImage.toString(),
-                      scale: 1
+        width: 500,
+        height: 500,
+        child: SingleChildScrollView( 
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Center(
+                  child: Image(
+                    fit: BoxFit.fitWidth,
+                    image: NetworkImage(
+                        widget.article.urlToImage.toString(),
+                        scale: 1
+                    ),
                   ),
                 ),
+                height: 300,
               ),
-              height: 300,
-            ),
-            Text(
-                widget.article.title,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    .merge(financeurText)
-                    .copyWith(
-                    fontWeight:
-                    FontWeight
-                        .bold)),
-            SizedBox(
-              height: 0.01 * height,
-            ),
-            Text(
-                widget.article.publishedAt
-                    .split("T")
-                    .first,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .merge(
-                    financeurText)),
-            SizedBox(
-              height: 0.02 * height,
-            ),
-            widget.article.description==null?Container():
-            Text(
-                widget.article.description,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .merge(
-                    financeurText)),
-            widget.article.content!=null?  Text(
-                widget.article.content.substring(0,100)+"...",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .merge(
-                    financeurText)):Text("Sorry, no news available, click the button below"),
-            SizedBox(
-              height: 0.02*height,
-            ),
-            Center(
-              child: Container(
-                height: 35,
-                width: 0.06 * width,
-                decoration: BoxDecoration(
-                  color: Color(0xff7B78FE),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: TextButton(
-                    onPressed: ()async {
-                      await canLaunch(widget.article.url)?
-                       await launch(widget.article.url):Fluttertoast.showToast(msg: "Couldn't launch url, sorry");
-                    },
-                    child: Text(
-                      "Read More",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          .merge(financeurText)
-                          .copyWith(color: Colors.white),
-                      textAlign: TextAlign.center,
+              Text(
+                  widget.article.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .merge(financeurText)
+                      .copyWith(
+                      fontWeight:
+                      FontWeight
+                          .bold)),
+              SizedBox(
+                height: 0.01 * height,
+              ),
+              Text(
+                  widget.article.publishedAt
+                      .split("T")
+                      .first,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .merge(
+                      financeurText)),
+              SizedBox(
+                height: 0.02 * height,
+              ),
+              widget.article.description==null?Container():
+              SelectableText(
+                  widget.article.description,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .merge(
+                      paraText),
+                showCursor: false,
+                toolbarOptions: ToolbarOptions(copy: true, selectAll: true,),
+              ),
+              widget.article.content!=null?  SelectableText(
+                  widget.article.content.substring(0,100)+"...",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .merge(
+                      paraText),
+                showCursor: false,
+                toolbarOptions: ToolbarOptions(copy: true, selectAll: true,),
+              ):Container(),
+              SizedBox(
+                height: 0.02*height,
+              ),
+              Center(
+                child: Container(
+                  height: 35,
+                  width: 0.06 * width,
+                  decoration: BoxDecoration(
+                    color: Color(0xff7B78FE),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: ()async {
+                        await canLaunch(widget.article.url)?
+                         await launch(widget.article.url):Fluttertoast.showToast(msg: "Couldn't launch url, sorry");
+                      },
+                      child: Text(
+                        "Read More",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText)
+                            .copyWith(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

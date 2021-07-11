@@ -2,7 +2,7 @@ from rest_framework import generics, permissions
 #from django.views import generic
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, ArticleSerializer,StockSerializer, UploadSerializer, ChangePasswordSerializer
+from .serializers import UserSerializer, RegisterSerializer, ArticleSerializer,StockSerializer, UploadSerializer, ChangePasswordSerializer,UserFormSerializer
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
@@ -39,7 +39,9 @@ class LoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        temp = super(LoginAPI, self).post(request, format=None)
+        temp.data['email'] = user.email
+        return temp
 
 
 
@@ -78,6 +80,9 @@ class ArticleView(generics.ListAPIView):
     serializer_class = ArticleSerializer
 
     def post(self, request,format=None):
+        len = Article.objects.all().count()
+        if len==12:
+            Article.objects.all().delete()
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -95,6 +100,15 @@ class ArticleSearchView(generics.ListAPIView):
     serializer_class = ArticleSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['$title']
+
+class UserFormView(generics.ListAPIView):
+
+    def post(self,request):
+        serializer = UserFormSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StockView(generics.ListAPIView):
     def post(self,request):

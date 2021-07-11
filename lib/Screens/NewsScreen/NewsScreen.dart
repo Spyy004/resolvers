@@ -9,6 +9,7 @@ import 'package:resolvers/Models/StockPricesModel.dart';
 import 'package:resolvers/Routes.dart';
 import 'package:resolvers/Screens/HomeScreen/Components/SingleNewsScreen.dart';
 import 'package:resolvers/Services/GetServices.dart';
+import 'package:resolvers/Services/PostServices.dart';
 import 'package:resolvers/Services/SharedPreferences.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 class NewsScreen extends StatefulWidget {
@@ -46,14 +47,30 @@ class _NewsScreenState extends State<NewsScreen> {
       if (sizing.isDesktop) {
         return Scaffold(
           //  extendBodyBehindAppBar: true,
-            appBar: AppBar(
+            appBar:  AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              titleSpacing: width * 0.27,
+              titleSpacing: width * 0.25,
               title: Row(
                 children: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.ArticlePage);
+                      },
+                      child: Text(
+                        "Articles",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .merge(financeurText),
+                      )),
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.NewsPage);
+                      },
                       child: Text(
                         "News",
                         style: Theme.of(context)
@@ -61,14 +78,25 @@ class _NewsScreenState extends State<NewsScreen> {
                             .bodyText2
                             .merge(financeurText),
                       )),
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.CommunityPage);
+                      },
                       child: Text("Community",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               .merge(financeurText))),
-                  TextButton(
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
+                  /*  TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.HomePage);
                       },
@@ -76,14 +104,94 @@ class _NewsScreenState extends State<NewsScreen> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
-                              .merge(financeurText))),
+                              .merge(financeurText))),*/
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(token != null)
+                        {
+                          Navigator.pushNamed(context, Routes.ResourcesPage);
+                        }
+                        else
+                        {
+                          showDialog(context: context, builder: (context){
+                            return AlertDialog(
+                              content: Container(
+                                width: 300,
+                                height: 300,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text("Please Sign Up or Login first!"),
+                                    SizedBox(
+                                      width: 0.01 * height,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, Routes.LogInPage);
+                                          },
+                                          child: Text(
+                                            "Log In",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                .merge(financeurText)
+                                                .copyWith(color: Colors.black),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 0.01 * width,
+                                        ),
+                                        Container(
+                                          height: 35,
+                                          width: 0.06 * width,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff7B78FE),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, Routes.SignUpPage);
+                                              },
+                                              child: Text(
+                                                "Get Started",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText2
+                                                    .merge(financeurText)
+                                                    .copyWith(color: Colors.white),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                        }
+                      },
                       child: Text("Resources",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               .merge(financeurText))),
+                  SizedBox(
+                    width: 0.005*width,
+                  ),
                   TextButton(
                       onPressed: () {},
                       child: Text("About",
@@ -99,8 +207,12 @@ class _NewsScreenState extends State<NewsScreen> {
                     Center(
                         child: token != null
                             ? TextButton(
-                          onPressed: () {
-                            /* Navigator.pushNamed(context, Routes.LogInPage);*/
+                          onPressed: () async{
+                            int y = await PostServices().LogOutUser();
+                            if(y==204)
+                            {
+                              Navigator.pushNamedAndRemoveUntil(context, Routes.LogInPage, (route) => false);
+                            }
                           },
                           child: Text(
                             "Log Out",
@@ -185,12 +297,21 @@ class _NewsScreenState extends State<NewsScreen> {
                 )
               ],
               leading: Center(
-                  child: Text(
-                    "Financeur",
-                    style:
-                    Theme.of(context).textTheme.headline4.merge(financeurText),
+                  child: InkWell(
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(context, Routes.HomePage, (route) => false);
+                    },
+                    child: Text(
+                      "Financeur",
+                      style:
+                      Theme.of(context).textTheme.headline4.merge(financeurText),
+                    ),
                   )),
-              leadingWidth: 160,
+              leadingWidth: width*0.15,
             ),
             backgroundColor: Colors.white,
             body: Padding(
@@ -494,11 +615,15 @@ class _NewsScreenState extends State<NewsScreen> {
                                         thickness: 1,
                                       ),
                                       ListView.builder(
-                                          itemCount: min(snapshot.data.totalResults,20),
+                                          itemCount: min(snapshot.data.articles.length,20),
                                           scrollDirection: Axis.vertical,
                                           shrinkWrap: true,
                                           itemBuilder: (context, index) {
                                             return InkWell(
+                                              focusColor: Colors.transparent,
+                                              splashColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
                                               onTap: (){
                                                 showDialog(context: context, builder: (context){
                                                   return SingleNewsScreen(article: snapshot.data.articles[index],);
@@ -553,14 +678,17 @@ class _NewsScreenState extends State<NewsScreen> {
                                                       SizedBox(
                                                         height: 0.02 * height,
                                                       ),
-                                                     snapshot.data.articles[index].description!=null? Text(
+                                                     snapshot.data.articles[index].description!=null? SelectableText(
                                                          snapshot
                                                              .data.articles[index].description,
                                                           style: Theme.of(context)
                                                               .textTheme
-                                                              .bodyText2
+                                                              .bodyText1
                                                               .merge(
-                                                              financeurText)):Text(
+                                                              paraText),
+                                                       showCursor: false,
+                                                       toolbarOptions: ToolbarOptions(copy: true, selectAll: true,),
+                                                     ):Text(
                                                          "Description",
                                                          style: Theme.of(context)
                                                              .textTheme

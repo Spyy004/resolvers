@@ -20,7 +20,7 @@ class SignUpTextField extends StatelessWidget {
     return Expanded(
       child: Container(
         // height: 10,
-        height: 55,
+        height: 85,
         width: 0.3*width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
