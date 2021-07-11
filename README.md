@@ -16,6 +16,7 @@ We have started this with a vision to educate the upcoming generation and folks 
 
 ### Installation
 - Install Flutter from https://flutter.dev/ as per your device.
+- Run using `flutter run -d chrome --web-renderer html`
 
 - For Backend check [requirements.txt](https://github.com/Spyy004/resolvers/blob/main/Backend/requirements.txt) using `pip install requirements.txt`
 
@@ -33,7 +34,7 @@ APIs <br/>
 
 ### Get in Touch
 - *Team Rational Rulers*
-  - **Ayush Pawar* - <a href="https://github.com/Spyy004">GitHub</a> | <a href="https://www.linkedin.com/in/ayush-pawar-847209191/">LinkedIn</a>
+  - **Ayush Pawar** - <a href="https://github.com/Spyy004">GitHub</a> | <a href="https://www.linkedin.com/in/ayush-pawar-847209191/">LinkedIn</a>
   - **Aman Pandit** - <a href="https://github.com/amanpanditap">GitHub</a> | <a href="https://www.linkedin.com/in/amanpanditwce/">LinkedIn</a>
   - **Shahid Mandal** - <a href="https://github.com/shahid-alt">GitHub</a> | <a href="https://www.linkedin.com/in/shahid-mandal-654ac6">LinkedIn</a>
   - **Ashish Singh** - <a href="https://github.com/AshishSingh2261">GitHub</a> | <a href="https://www.linkedin.com/in/ashish-singh-391ba61b1">LinkedIn</a>
